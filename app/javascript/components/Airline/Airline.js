@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import Header from './Header'
 import axios from 'axios';
 import styled from 'styled-components';
+import ReviewForm from './ReviewForm'
 
 const Wrapper = styled.div`
     margin-left:auto;
@@ -41,20 +42,23 @@ const Airline = (props) => {
 
     return (
         <Wrapper>
-            <Column>
-                <Main>
-                    {loaded &&
-                        <Header
-                            attributes={airline.data.attributes}
-                            reviews={airline.data.relationships.reviews.data}
-                        />
-                    }
-                    <div className="reviews"></div>
-                </Main>
-            </Column>
-            <Column>
-                <div className="review-form">Review form goes here</div>
-            </Column>
+            {loaded &&
+                <Fragment>
+                    <Column>
+                        <Main>
+                            <Header
+                                attributes={airline.data.attributes}
+                                reviews={airline.data.relationships.reviews.data}
+                            />
+
+                            <div className="reviews"></div>
+                        </Main>
+                    </Column>
+                    <Column>
+                        <ReviewForm />
+                    </Column>
+                </Fragment>
+            }
         </Wrapper>
     )
 }
