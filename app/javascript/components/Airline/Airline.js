@@ -55,10 +55,18 @@ const Airline = (props) => {
         const airline_id = airline.data.id
         axios.post('/api/v1/reviews', {review, airline_id})
         .then(res => {
-            debugger
+            const included = [...airline.data.relationships.reviews.data, res.data]
+            setAirline({...airline, included})
+            setReview({title: '', description: '', score: 0})
         })
         .catch(res => {})
     };
+
+    const setRating = (score, e) => {
+        e.preventDefault();
+        
+        setReview({...review, score})
+    }
 
     return (
         <Wrapper>
@@ -78,6 +86,7 @@ const Airline = (props) => {
                         <ReviewForm
                             handleChange={handleChange}
                             handleSubmit={handleSubmit}
+                            setRating={setRating}
                             attributes={airline.data.attributes}
                             review={review}
                         />
